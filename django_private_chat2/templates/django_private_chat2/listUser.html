@@ -1,0 +1,42 @@
+<!-- {% if latest_question_list %}
+    <ul>
+    {% for question in latest_question_list %}
+        <li><a href="/polls/{{ question.id }}/">{{ question.question_text }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No polls are available.</p>
+{% endif %} -->
+
+<!-- <p>GOOOO</p>
+{{page}}
+{{pages}}
+{{data}}
+
+<ul>
+{% for message in data %}
+    <li>{{ message.text }}</li>
+{% endfor %}
+</ul> -->
+
+
+<div class='chatbox'>
+    <div class='chatbox__user-list'>
+        <h1>User list</h1>
+        <ul>
+            {% for contact in data %}
+                <li>
+                    <p>{{ contact }}</p>
+
+                    <div class='chatbox__user--away' style="border: 1px solid black;">
+                        <p>{{ contact.username }} </p>
+                        <p>{{ contact.last_message.text }} - {{ contact.last_message.sent|date:"SHORT_DATE_FORMAT" }} - {{ contact.last_message.read }}</p>
+                    </div>
+                </li>  
+            {% empty %}
+                <li>Sorry, no users.</li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+

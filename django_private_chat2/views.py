@@ -24,7 +24,9 @@ from django.contrib.auth.models import AbstractBaseUser
 from django.urls import reverse_lazy
 from django.forms import ModelForm
 import json
+import datetime
 
+from django.shortcuts import render
 
 class MessagesModelList(LoginRequiredMixin, ListView):
     http_method_names = ['get', ]
@@ -40,7 +42,7 @@ class MessagesModelList(LoginRequiredMixin, ListView):
             qs = MessageModel.objects.filter(Q(recipient=self.request.user) |
                                              Q(sender=self.request.user)).prefetch_related('sender', 'recipient', 'file')
 
-        return qs.order_by('-created')
+        return qs.order_by('created')
 
     def render_to_response(self, context, **response_kwargs):
         user_pk = self.request.user.pk
@@ -52,7 +54,8 @@ class MessagesModelList(LoginRequiredMixin, ListView):
             'pages': paginator.num_pages,
             'data': data
         }
-        return JsonResponse(return_data, **response_kwargs)
+        return render(self.request, 'django_private_chat2/chat.html', return_data)
+        # return JsonResponse(return_data, **response_kwargs)
 
 
 class DialogsModelList(LoginRequiredMixin, ListView):
@@ -70,12 +73,14 @@ class DialogsModelList(LoginRequiredMixin, ListView):
         data = [serialize_dialog_model(i, user_pk) for i in context['object_list']]
         page: Page = context.pop('page_obj')
         paginator: Paginator = context.pop('paginator')
+
         return_data = {
             'page': page.number,
             'pages': paginator.num_pages,
             'data': data
         }
-        return JsonResponse(return_data, **response_kwargs)
+        return render(self.request, 'django_private_chat2/listUser.html', return_data)
+        # return JsonResponse(return_data, **response_kwargs)
 
 
 class SelfInfoView(LoginRequiredMixin, DetailView):

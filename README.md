@@ -14,11 +14,10 @@ Le but de ce projet est de créer un site dans le style de Doctolib :
 - [] page d'accueil des patients :
     - [] rappel des prochains rendez vous
     - [] reprendre un rendez-vous avec un praticien déjà consulté - chat/forum (https://djangopackages.org/grids/g/chat/)
-        - https://github.com/Bearle/django_private_chat2
 
 Le site doit être fait avec du Django simple (pas d'API REST, pas de front avec framework type react ou angular), ignorer cette contrainte conduira à un zero automatiquement.
 
-## Lancement projet
+## Commande Django
 Lancer serveur
 ````
 python3 manage.py runserver
