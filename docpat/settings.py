@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'accounts',
     'django_private_chat2.apps.DjangoPrivateChat2Config',
+    "doctorBackOffice",
 ]
 
 MIDDLEWARE = [
@@ -56,7 +57,7 @@ ROOT_URLCONF = 'docpat.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates', BASE_DIR / "accounts" / 'templates' / "accounts"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -66,7 +67,6 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
             ],
         },
-        "DIRS": [BASE_DIR / "templates"],
     },
 ]
 
@@ -122,5 +122,5 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 AUTH_USER_MODEL = "accounts.CustomUser"
-LOGIN_REDIRECT_URL = "home"
-LOGOUT_REDIRECT_URL = "home"
+LOGIN_REDIRECT_URL = "/"
+LOGOUT_REDIRECT_URL = "/"

@@ -6,7 +6,14 @@ from django.db import models
 
 
 class CustomUser(AbstractUser):
-    user_type = models.CharField(max_length=10, default='user')
+    DOCTOR = "doctor"
+    PATIENT = "patient"
+    USER_TYPES = [
+        (DOCTOR, "Doctor"),
+        (PATIENT, "Patient"),
+    ]
+    user_type = models.CharField(
+        max_length=10, choices=USER_TYPES, default='user')
     address = models.CharField(max_length=100)
     phone = models.CharField(max_length=10)
     speciality = models.CharField(max_length=100)
