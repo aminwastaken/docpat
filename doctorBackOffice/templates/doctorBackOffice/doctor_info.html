@@ -1,7 +1,7 @@
 <html>
   <body>
     <h1>doctor info page</h1>
-    <form action="/dbo/doctor/{{id}}" method="post">
+    <form action="/dbo/doctor" method="post">
         {% csrf_token %}
         {{ form }}
         <input type="submit" value="Submit">

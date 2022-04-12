@@ -26,7 +26,7 @@ def doctor(request, id):
     return render(request, 'doctorBackOffice/doctor.html', {'doctor': doctor, 'doctor_infos': doctor_infos})
 
 
-def doctor_info(request, id):
+def doctor_info(request):
     if request.method == 'POST':
         form = DocPageCreationForm(request.POST)
         if form.is_valid():
@@ -41,7 +41,7 @@ def doctor_info(request, id):
     return render(request, 'doctor_info.html', {'form': form, 'id': id})
 
 
-def doctor_services(request, id):
+def doctor_services(request):
     if request.method == 'POST':
         form = DocServiceCreationForm(request.POST)
         if form.is_valid():
@@ -52,7 +52,7 @@ def doctor_services(request, id):
             doctor.services.add(service)
             doctor.save()
             form.save()
-            return HttpResponseRedirect('/')
+            return HttpResponseRedirect('/dbo/doctor/' + str(doctor.id))
     else:
         form = DocServiceCreationForm()
     return render(request, 'doctor_service.html', {'form': form, 'id': id})
