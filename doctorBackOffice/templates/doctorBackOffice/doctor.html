@@ -13,5 +13,22 @@
       <li>Address : {{doctor.address}}</li>
       <li>Phone : {{doctor.phone}}</li>
     </ul>
+
+    <form action="/dbo/doctor/{{doctor_infos.id}}" method="post">
+        {% csrf_token %}
+        <input type="date" name="apointmentDate" />
+        <select name="apointmentTime" id="pet-select">
+          {% for time in  hours %}
+            <option value="{{time.value}}">{{time.text}}</option>
+          {% endfor %}
+      </select>
+      <div>Services</div>
+      {% for service in doctor_infos.get_services_array%}
+      {{service}}
+      <input type="checkbox" name="services" value="{{service.id}}" />{{service.name}} <br />
+      {% endfor %}
+        <input type="submit" value="Submit"> 
+    </form>
+
   </body>
 </html>

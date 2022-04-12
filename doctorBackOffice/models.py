@@ -5,6 +5,7 @@ from accounts import models as accounts_models
 
 
 class Service(models.Model):
+    id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100)
     price = models.IntegerField()
 
@@ -26,10 +27,9 @@ class Appointment(models.Model):
     patient = models.ForeignKey(
         accounts_models.CustomUser, on_delete=models.CASCADE, related_name='patient')
     date = models.DateField()
-    # status = models.CharField(max_length=10, choices=STATUS_CHOICES, default=PENDING)
     services = models.ManyToManyField(
         Service, related_name='appointment_services', default=None)
-    # time = models.TimeField()
+    time = models.IntegerField()
 
     def __str__(self):
         return self.doctor.last_name + ' ' + self.patient.last_name
@@ -72,7 +72,8 @@ class DoctorInfo(models.Model):
         (RADIOLOGIST, "Radiologist"),
     ]
 
-    doctor = models.OneToOneField(accounts_models.CustomUser, on_delete=models.CASCADE)
+    doctor = models.OneToOneField(
+        accounts_models.CustomUser, on_delete=models.CASCADE)
     speciality = models.CharField(
         max_length=40, choices=SPECIALITY_CHOICES, default=GENERALIST)
     description = models.TextField()
@@ -86,4 +87,4 @@ class DoctorInfo(models.Model):
         return ", ".join([service.name for service in self.services.all()])
 
     def get_services_array(self):
-        return [{"name":service.name,"price":service.price} for service in self.services.all()]
+        return [{"id": service.id, "name": service.name, "price": service.price} for service in self.services.all()]

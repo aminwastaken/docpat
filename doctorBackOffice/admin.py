@@ -9,7 +9,7 @@ class AppointmentAdmin(admin.ModelAdmin):
 
 class ServiceAdmin(admin.ModelAdmin):
     model = Service
-    list_display = ["name", "price"]
+    list_display = ["id", "name", "price"]
 
 
 class DoctorInfoAdmin(admin.ModelAdmin):

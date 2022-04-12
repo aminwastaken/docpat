@@ -21,9 +21,31 @@ def bill(request, id):
 
 
 def doctor(request, id):
+    if request.method == 'POST':
+        print(request.POST)
+        doctorInfo = DoctorInfo.objects.get(id=id)
+        doctor = CustomUser.objects.get(id=doctorInfo.doctor.id)
+        appointment = Appointment(doctor=doctor, patient=request.user,
+                                  date=request.POST['apointmentDate'], time=request.POST['apointmentTime'])
+        appointment.save()
+        for service in request.POST.getlist('services'):
+            appointment.services.add(Service.objects.get(id=service))
+        appointment.save()
     doctor = CustomUser.objects.get(id=id)
     doctor_infos = DoctorInfo.objects.get(doctor=doctor)
-    return render(request, 'doctorBackOffice/doctor.html', {'doctor': doctor, 'doctor_infos': doctor_infos})
+    hours = [
+        {"value": 9, "text": "09:00"},
+        {"value": 10, "text": "10:00"},
+        {"value": 11, "text": "11:00"},
+        {"value": 12, "text": "12:00"},
+        {"value": 13, "text": "13:00"},
+        {"value": 14, "text": "14:00"},
+        {"value": 15, "text": "15:00"},
+        {"value": 16, "text": "16:00"},
+        {"value": 17, "text": "17:00"},
+        {"value": 18, "text": "18:00"},
+    ]
+    return render(request, 'doctorBackOffice/doctor.html', {'doctor': doctor, 'doctor_infos': doctor_infos, 'hours': hours})
 
 
 def doctor_info(request):
