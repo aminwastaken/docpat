@@ -1,14 +1,15 @@
-{% extends "base_django_private_chat2.html" %}
+{% extends "base.html" %}
 
-{% block title %}My amazing blog{% endblock %}
+{% block title %}Docpat - Chat {% endblock %}
 
 {% block content %}
 <div class="chatbox__messages">
   <h2>Chat Box</h2>
+  <a href="{% url 'django_private_chat2:dialogs_list' %}">Retour</a>
   <div class="chatbox__messages__user-message" style="border: 1px solid black;">
     <ul>
       {% for message in data %}
-          <li>{{ message }}</li>
+          <!-- <li>{{ message }}</li> -->
           <div class="chatbox__messages__user-message--ind-message" style="border: 1px solid black;">
             <p class="name">{{ message.sender_username }}</p>
             <p class="message">{{ message.text }} - LU ?{{ message.read }}</p>

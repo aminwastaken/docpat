@@ -43,6 +43,13 @@ Shell Pyhton
 python3 manage.py shell
 ```
 
+## Create admin
+
+````
+python3 manage.py createsuperuser
+````
+
+
 
 ## Model DB
 - Patient

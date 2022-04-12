@@ -1,14 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}Docpat - Chat{% endblock %}
+
+{% block content %}
 <div class='chatbox'>
     <div class='chatbox__user-list'>
-        <h1>User list</h1>
+        <h2>User list</h2>
         <ul>
             {% for contact in data %}
                 <li>
-                    <p>{{ contact }}</p>
-
+                    <!-- <p>{{ contact }}</p> -->
                     <div class='chatbox__user--away' style="border: 1px solid black;">
-                        <p>{{ contact.username }} </p>
-                        <p>{{ contact.last_message.text }} - {{ contact.last_message.sent|date:"SHORT_DATE_FORMAT" }} - {{ contact.last_message.read }}</p>
+                        <a href="{% url 'django_private_chat2:messages_list' contact.other_user_id  %}">
+                            <p>{{ contact.username }} </p>
+                            <p>{{ contact.last_message.text }} - {{ contact.last_message.sent|date:"SHORT_DATE_FORMAT" }} - {{ contact.last_message.read }}</p>
+                        </a>
                     </div>
                 </li>  
             {% empty %}
@@ -17,4 +23,5 @@
         </ul>
     </div>
 </div>
+{% endblock %}
 
