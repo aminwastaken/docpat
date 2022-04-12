@@ -1,5 +1,6 @@
-<html>
-  <body>
+{% extends "base.html" %}
+
+{% block content %}
     <h1>Appointment {{appointment.id}}</h1>
     <ul>
       <li>
@@ -9,5 +10,4 @@
       <li>Service : {{appointment.get_services}}</li>
       <li><a href="{% url "bill" appointment.bill.id %}">Bill</a></li>
     </ul>
-  </body>
-</html>
+{% endblock %}

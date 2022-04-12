@@ -1,5 +1,6 @@
-<html>
-  <body>
+{% extends "base.html" %}
+
+{% block content %}
     <h1>Doctor {{doctor.get_full_name}}</h1>
     <ul>
       <li>Description : {{doctor_infos.description}}</li>
@@ -29,6 +30,4 @@
       {% endfor %}
         <input type="submit" value="Submit"> 
     </form>
-
-  </body>
-</html>
+{% endblock %}
