@@ -27,13 +27,13 @@ def cancel_appointment(request, id):
     appointment = Appointment.objects.get(id=id)
     doctorInfo = DoctorInfo.objects.get(doctor=appointment.doctor)
     appointment.delete()
-    return HttpResponseRedirect('/dbo/doctor/' + str(doctorInfo.id))
+    return HttpResponseRedirect('/dbo/doctor/' + str(doctorInfo.doctor.id))
 
 
 def doctor(request, id):
     if request.method == 'POST':
         print(request.POST)
-        doctorInfo = DoctorInfo.objects.get(id=id)
+        doctorInfo = DoctorInfo.objects.get(doctor=request.user)
         doctor = CustomUser.objects.get(id=doctorInfo.doctor.id)
         appointment = Appointment(doctor=doctor, patient=request.user,
                                   date=request.POST['apointmentDate'], time=request.POST['apointmentTime'])
@@ -82,6 +82,28 @@ def doctor_info(request):
     else:
         form = DocPageCreationForm()
     return render(request, 'doctor_info.html', {'form': form, 'id': id})
+
+
+def calendar(request):
+    appointments = Appointment.objects.filter(doctor=request.user)
+    # sort dates
+    appointments = appointments.order_by('date')
+    # format put times inside date object
+    formattedDates = []
+    formattedDates.append({
+        'date': appointments[0].date, 'appointments': []})
+    if(len(appointments) > 0):
+        current_date = appointments[0].date
+        for appointment in appointments:
+            if(appointment.date != current_date):
+                current_date = appointment.date
+                formattedDates.append({
+                    'date': current_date, 'appointments': []})
+                formattedDates[-1]['appointments'].append(appointment)
+            else:
+                formattedDates[-1]['appointments'].append(appointment)
+    print(formattedDates)
+    return render(request, 'calendar.html', {'formattedDates': formattedDates})
 
 
 def doctor_services(request):
