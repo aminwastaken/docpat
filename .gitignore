@@ -1,2 +1,5 @@
 .python-version
 db.sqlite3
+.idea 
+.vscode
+.venv
