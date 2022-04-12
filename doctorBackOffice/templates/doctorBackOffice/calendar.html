@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+    
+    <div style="margin:50px">
+        <h1>Clendar</h1>
+        <!-- <div style="margin-bottom: 20px;">
+            <p>Choose a date :</p>
+            <input type="date" id="date" value="{{date}}">
+        </div> -->
+        <!-- <p>Availailable hours :</p>
+       
+        <ul class="list-group">
+            <li class="list-group-item">Dapibus ac facilisis in</li>
+            <li class="list-group-item list-group-item-success">This is a success list group item</li>
+
+          </ul> -->
+
+          {% for date in formattedDates %}
+          <p>{{date.date}}</p>
+          <ul class="list-group" style="margin-bottom: 20px;">
+              {% for appointment in date.appointments %}
+                <li class="list-group-item" style="display:flex; justify-content: space-between;">{{appointment.time}}:00 <a class="btn btn-primary" href="/dbo/appointment/cancel/{{appointment.id}}" role="button" style="margin-left: 80px">Cancel apointment</a></li>
+                {% endfor %}
+
+          </ul> 
+            {% endfor %}
+    </div>
+{% endblock %}

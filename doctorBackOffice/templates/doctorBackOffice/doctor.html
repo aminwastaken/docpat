@@ -18,11 +18,8 @@
       <h2>Appointment</h2>
       
       <p>You have an apointment in  {{appointment.date}} , {{appointment.time}}:00 <a class="btn btn-primary" href="/dbo/appointment/cancel/{{appointment.id}}" role="button" style="margin-left: 80px">Cancel apointment</a></p>
-      
- 
-
     {% else %}
-      <form action="/dbo/doctor/{{doctor_infos.id}}" method="post">
+      <form action="/dbo/doctor/{{doctor.id}}" method="post">
         {% csrf_token %}
         <input type="date" name="apointmentDate" />
         <select name="apointmentTime" id="pet-select">
