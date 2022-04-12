@@ -1,3 +1,4 @@
+from django.utils import timezone
 from django.shortcuts import render
 from django.http import HttpResponse
 from accounts.models import CustomUser
@@ -13,6 +14,23 @@ def index(request):
 def appointment(request, id):
     appointment = Appointment.objects.get(id=id)
     return render(request, 'doctorBackOffice/appointment.html', {'appointment': appointment})
+
+def appointmentAll(request):
+
+    doctorInfo = DoctorInfo.objects.get(id=request.user.pk)
+    doctor = CustomUser.objects.get(id=doctorInfo.doctor.id)
+    appointments = Appointment.objects.filter(doctor=doctor)
+
+    appointments_futur = appointments.filter(date__gte=timezone.now())
+    appointments_past = appointments.filter(date__lte=timezone.now())
+
+
+
+    result_data = {
+        'appointments': appointments_past,
+        'appointments_futur': appointments_futur
+    }
+    return render(request, 'doctorBackOffice/appointmentList.html',result_data)
 
 
 def bill(request, id):

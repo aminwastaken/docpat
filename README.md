@@ -3,15 +3,15 @@
 ## Objectif
 Le but de ce projet est de créer un site dans le style de Doctolib : 
 - [x] authentification, pour deux types de profils : patient et praticien
-- [] prise de rendez vous, avec proposition de créneaux libres (EN COURS)
+- [x] prise de rendez vous, avec proposition de créneaux libres
 - [] sélection de praticiens par zone géographique (optionnel)
 - [] backoffice pour les praticiens :
     - [x] ajout de billets décrivant leurs différentes prestations
-    - [] interface de facturation
+    - [x] interface de facturation
     - [] gestion de son agenda
     - [x] rédaction de page de présentation
 - [] page d'accueil des patients :
-    - [] rappel des prochains rendez vous
+    - [x] rappel des prochains rendez-vous
     - [] reprendre un rendez-vous avec un praticien déjà consulté
     - [x] chat/forum
 

@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block title %}Docpat - Appointments{% endblock %}
+
+{% block content %}
+
+    <h2>My Appointments</h2>
+    <ul>
+      {% for appointment in  appointments_futur %}
+      <div style="border: 2px solid black;">
+        <li>
+          Patient : {{appointment.patient.get_full_name}}
+        </li>
+        <li>Date : {{appointment.date}}</li>
+        <li>Service : {{appointment.get_services}}</li>
+      </div>
+      {% endfor %}
+    </ul>
+    <h2>List Appointments past</h2>
+    <ul>
+      {% for appointment in  appointments %}
+      <div style="border: 2px solid black;">
+        <li>
+          Patient : {{appointment.patient.get_full_name}}
+        </li>
+        <li>Date : {{appointment.date}}</li>
+        <li>Service : {{appointment.get_services}}</li>
+      </div>
+      {% endfor %}
+    </ul>
+
+    
+
+{% endblock %}

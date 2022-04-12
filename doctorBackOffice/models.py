@@ -37,6 +37,9 @@ class Appointment(models.Model):
     def get_services(self):
         return ", ".join([service.name for service in self.services.all()])
 
+    def get_doctor(self):
+        return {"id": self.doctor.id, "name": self.doctor.username}
+
 
 class Bill(models.Model):
     appointment = models.OneToOneField(Appointment, on_delete=models.CASCADE,related_name='bill')
