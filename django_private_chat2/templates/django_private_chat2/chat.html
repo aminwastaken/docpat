@@ -1,14 +1,8 @@
-<!-- {% if latest_question_list %}
-    <ul>
-    {% for question in latest_question_list %}
-        <li><a href="/polls/{{ question.id }}/">{{ question.question_text }}</a></li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>No polls are available.</p>
-{% endif %} -->
+{% extends "base_django_private_chat2.html" %}
 
+{% block title %}My amazing blog{% endblock %}
 
+{% block content %}
 <div class="chatbox__messages">
   <h2>Chat Box</h2>
   <div class="chatbox__messages__user-message" style="border: 1px solid black;">
@@ -19,10 +13,9 @@
             <p class="name">{{ message.sender_username }}</p>
             <p class="message">{{ message.text }} - LU ?{{ message.read }}</p>
             <p>{{ message.sent|date:"SHORT_DATE_FORMAT" }} - {{ message.sent|time:"H:i" }}</p>
-
           </div>
       {% empty %}
-          <li>Sorry, no message.</li>
+          <p>Sorry, no message.</p>
       {% endfor %}
     </ul>
   </div>
@@ -31,4 +24,4 @@
     <input type="text" placeholder="Enter your message">
   </form>
 </div>
-  
+{% endblock %}

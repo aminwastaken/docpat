@@ -45,6 +45,8 @@ class MessagesModelList(LoginRequiredMixin, ListView):
         return qs.order_by('created')
 
     def render_to_response(self, context, **response_kwargs):
+        print(self.request.user)
+
         user_pk = self.request.user.pk
         data = [serialize_message_model(i, user_pk) for i in context['object_list']]
         page: Page = context.pop('page_obj')
@@ -93,7 +95,8 @@ class SelfInfoView(LoginRequiredMixin, DetailView):
             "username": user.get_username(),
             "pk": str(user.pk)
         }
-        return JsonResponse(data, **response_kwargs)
+        return render(self.request, 'django_private_chat2/self.html', data)
+        # return JsonResponse(data, **response_kwargs)
 
 
 # 2.5MB - 2621440
