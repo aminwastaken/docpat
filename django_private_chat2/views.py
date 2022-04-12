@@ -9,7 +9,7 @@ from django.views.generic import (
 )
 from accounts.models import CustomUser
 
-from django_private_chat2.forms import DialogForm, MessageForm
+from django_private_chat2.forms import MessageForm
 
 from .models import (
     MessageModel,
@@ -42,7 +42,6 @@ def send_message(request, dialog_with):
     return HttpResponseRedirect(reverse('django_private_chat2:messages_list', args=(dialog_with,)))
 
 def create_dialog(request):
-    print(request.POST)
 
     senderUser = CustomUser.objects.get(id=request.user.pk)
     recipientUser = CustomUser.objects.get(id=request.POST['userRecipient'])
@@ -101,9 +100,7 @@ class DialogsModelList(LoginRequiredMixin, ListView):
         return qs.order_by('-created')
 
     def render_to_response(self, context, **response_kwargs):
-        # TODO: add online status
         user_pk = self.request.user.pk
-        # form = DialogForm()
         data = [serialize_dialog_model(i, user_pk) for i in context['object_list']]
         page: Page = context.pop('page_obj')
         paginator: Paginator = context.pop('paginator')
@@ -112,16 +109,13 @@ class DialogsModelList(LoginRequiredMixin, ListView):
         idList = CustomUser.objects.values_list('id').exclude(id=self.request.user.pk)
         choicesList = idList.union(usernameList).order_by('username')
 
-
         return_data = {
             'page': page.number,
             'pages': paginator.num_pages,
-            # 'form' : form,
             'data': data,
             'choicesList': choicesList
         }
         return render(self.request, 'django_private_chat2/listUser.html', return_data)
-        # return JsonResponse(return_data, **response_kwargs)
 
 
 class SelfInfoView(LoginRequiredMixin, DetailView):

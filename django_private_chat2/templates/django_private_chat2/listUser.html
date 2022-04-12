@@ -23,7 +23,6 @@
         </ul>
          <form action="{% url 'django_private_chat2:create_dialog' %}" method="post">
             {% csrf_token %}
-            <!-- {{ form }} -->
             <label for="userRecipient">List User:</label>
                 <select id="userRecipient" name="userRecipient">
                     {% for id,choice in choicesList %}
