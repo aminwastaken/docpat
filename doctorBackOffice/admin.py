@@ -14,7 +14,8 @@ class ServiceAdmin(admin.ModelAdmin):
 
 class DoctorInfoAdmin(admin.ModelAdmin):
     model = DoctorInfo
-    list_display = ["doctor", "speciality", "description", "get_services"]
+    list_display = ["id", "doctor", "speciality",
+                    "description", "get_services"]
 
 
 admin.site.register(Appointment, AppointmentAdmin)

@@ -1,0 +1,10 @@
+<html>
+  <body>
+    <h1>Apointment page page</h1>
+    <form action="/dbo/doctor/{{id}}/services" method="post">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit" value="Submit">
+    </form>
+  </body>
+</html>

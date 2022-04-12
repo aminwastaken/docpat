@@ -56,7 +56,7 @@ ROOT_URLCONF = 'docpat.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates', BASE_DIR / "accounts" / 'templates' / "accounts"],
+        'DIRS': [BASE_DIR / 'templates', BASE_DIR / "accounts" / 'templates' / "accounts", BASE_DIR / "doctorBackOffice" / 'templates' / "doctorBackOffice"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
