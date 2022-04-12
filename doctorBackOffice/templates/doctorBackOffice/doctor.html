@@ -16,10 +16,10 @@
     </ul>
     {% if appointment %}
       <h2>Appointment</h2>
-      <ul>
-        <li>Date : {{appointment.date}}</li>
-        <li>Time : {{appointment.time}}</li>
-      </ul>
+      
+      <p>You have an apointment in  {{appointment.date}} , {{appointment.time}}:00 <a class="btn btn-primary" href="/dbo/appointment/cancel/{{appointment.id}}" role="button" style="margin-left: 80px">Cancel apointment</a></p>
+      
+ 
 
     {% else %}
       <form action="/dbo/doctor/{{doctor_infos.id}}" method="post">
@@ -33,9 +33,9 @@
       <div>Services</div>
       {% for service in doctor_infos.get_services_array%}
       {{service}}
-      <input type="checkbox" name="services" value="{{service.id}}" />{{service.name}} <br />
+      <input  type="checkbox" name="services" value="{{service.id}}" />{{service.name}} <br />
       {% endfor %}
-        <input type="submit" value="Submit"> 
+        <input class="btn btn-primary" type="submit" value="Submit"> 
     </form>
     {% endif %}
 

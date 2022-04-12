@@ -23,6 +23,13 @@ def bill(request, id):
     return render(request, 'doctorBackOffice/bill.html', {'bill': bill, 'total': total})
 
 
+def cancel_appointment(request, id):
+    appointment = Appointment.objects.get(id=id)
+    doctorInfo = DoctorInfo.objects.get(doctor=appointment.doctor)
+    appointment.delete()
+    return HttpResponseRedirect('/dbo/doctor/' + str(doctorInfo.id))
+
+
 def doctor(request, id):
     if request.method == 'POST':
         print(request.POST)
