@@ -44,9 +44,9 @@ def send_message(request, dialog_with):
 def create_dialog(request):
 
     senderUser = CustomUser.objects.get(id=request.user.pk)
-    recipientUser = CustomUser.objects.get(id=request.POST['userRecipient'])
 
     try:
+        recipientUser = CustomUser.objects.get(id=request.POST['userRecipient'])
         newDialog = DialogsModel(user1=senderUser, user2=recipientUser)
         newDialog.save()
     except :
