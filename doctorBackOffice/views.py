@@ -95,7 +95,7 @@ def doctor_services(request):
             doctor.services.add(service)
             doctor.save()
             form.save()
-            return HttpResponseRedirect('/dbo/doctor/' + str(doctor.id))
+            return HttpResponseRedirect('/dbo/doctor/' + str(request.user.id))
     else:
         form = DocServiceCreationForm()
     return render(request, 'doctor_service.html', {'form': form, 'id': id})
