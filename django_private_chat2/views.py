@@ -39,11 +39,21 @@ def send_message(request, dialog_with):
     newMessage = MessageModel(sender=senderUser, recipient=recipientUser, text=request.POST['message'])
     newMessage.save()
 
-    return_data = {
-        'newMessage': newMessage,
-        'dialog_with' : dialog_with
-    }
     return HttpResponseRedirect(reverse('django_private_chat2:messages_list', args=(dialog_with,)))
+
+def create_dialog(request):
+
+    senderUser = CustomUser.objects.get(id=request.user.pk)
+    recipientUser = CustomUser.objects.get(id=request.POST['userRecipient'])
+
+    try:
+        newDialog = DialogsModel(user1=senderUser, user2=recipientUser)
+        newDialog.save()
+    except :
+        return HttpResponseRedirect(reverse('django_private_chat2:dialogs_list'))
+
+
+    return HttpResponseRedirect(reverse('django_private_chat2:dialogs_list'))
 
 class MessagesModelList(LoginRequiredMixin, ListView):
     http_method_names = ['get', ]
@@ -90,19 +100,22 @@ class DialogsModelList(LoginRequiredMixin, ListView):
         return qs.order_by('-created')
 
     def render_to_response(self, context, **response_kwargs):
-        # TODO: add online status
         user_pk = self.request.user.pk
         data = [serialize_dialog_model(i, user_pk) for i in context['object_list']]
         page: Page = context.pop('page_obj')
         paginator: Paginator = context.pop('paginator')
 
+        usernameList = CustomUser.objects.values_list('username').exclude(id=self.request.user.pk)
+        idList = CustomUser.objects.values_list('id').exclude(id=self.request.user.pk)
+        choicesList = idList.union(usernameList).order_by('username')
+
         return_data = {
             'page': page.number,
             'pages': paginator.num_pages,
-            'data': data
+            'data': data,
+            'choicesList': choicesList
         }
         return render(self.request, 'django_private_chat2/listUser.html', return_data)
-        # return JsonResponse(return_data, **response_kwargs)
 
 
 class SelfInfoView(LoginRequiredMixin, DetailView):
