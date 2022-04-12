@@ -47,8 +47,19 @@ def doctor(request, id):
         {"value": 16, "text": "16:00"},
         {"value": 17, "text": "17:00"},
         {"value": 18, "text": "18:00"},
+        # check if appointment exists
     ]
-    return render(request, 'doctorBackOffice/doctor.html', {'doctor': doctor, 'doctor_infos': doctor_infos, 'hours': hours})
+    appointment_exist = Appointment.objects.filter(
+        doctor=doctor, patient=request.user).exists()
+    print("appointment_exist")
+    print(appointment_exist)
+    if appointment_exist:
+        appointment = Appointment.objects.filter(
+            doctor=doctor, patient=request.user).first()
+        print(appointment.doctor)
+    else:
+        appointment = None
+    return render(request, 'doctorBackOffice/doctor.html', {'doctor': doctor, 'doctor_infos': doctor_infos, 'hours': hours, 'appointment_exist': appointment_exist, 'appointment': appointment})
 
 
 def doctor_info(request):

@@ -14,8 +14,15 @@
       <li>Address : {{doctor.address}}</li>
       <li>Phone : {{doctor.phone}}</li>
     </ul>
+    {% if appointment %}
+      <h2>Appointment</h2>
+      <ul>
+        <li>Date : {{appointment.date}}</li>
+        <li>Time : {{appointment.time}}</li>
+      </ul>
 
-    <form action="/dbo/doctor/{{doctor_infos.id}}" method="post">
+    {% else %}
+      <form action="/dbo/doctor/{{doctor_infos.id}}" method="post">
         {% csrf_token %}
         <input type="date" name="apointmentDate" />
         <select name="apointmentTime" id="pet-select">
@@ -30,4 +37,9 @@
       {% endfor %}
         <input type="submit" value="Submit"> 
     </form>
+    {% endif %}
+
+      
+
+
 {% endblock %}
