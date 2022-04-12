@@ -17,9 +17,10 @@ def appointment(request, id):
 
 def appointmentAll(request):
 
-    doctorInfo = DoctorInfo.objects.get(id=request.user.pk)
-    doctor = CustomUser.objects.get(id=doctorInfo.doctor.id)
+    doctor = CustomUser.objects.get(id=request.user.pk)
+
     appointments = Appointment.objects.filter(doctor=doctor)
+
 
     appointments_futur = appointments.filter(date__gte=timezone.now())
     appointments_past = appointments.filter(date__lte=timezone.now())
