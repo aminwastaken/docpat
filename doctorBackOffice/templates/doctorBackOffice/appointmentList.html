@@ -14,6 +14,8 @@
         <li>Date : {{appointment.date}}</li>
         <li>Service : {{appointment.get_services}}</li>
       </div>
+      {% empty %}
+      <p>No appointments</p>
       {% endfor %}
     </ul>
     <h2>List Appointments past</h2>
@@ -26,6 +28,8 @@
         <li>Date : {{appointment.date}}</li>
         <li>Service : {{appointment.get_services}}</li>
       </div>
+      {% empty %}
+      <p>No appointments</p>
       {% endfor %}
     </ul>
 
