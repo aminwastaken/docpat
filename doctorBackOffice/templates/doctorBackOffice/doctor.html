@@ -1,0 +1,17 @@
+<html>
+  <body>
+    <h1>Doctor {{doctor.get_full_name}}</h1>
+    <ul>
+      <li>Description : {{doctor_infos.description}}</li>
+      <li>Speciality : {{doctor_infos.speciality}}</li>
+      <li>Services<ul>
+        {% for service in doctor_infos.get_services_array%}
+          <li>{{service.name}} : {{service.price}}€</li>
+        {% endfor %}
+      </ul>
+    </li>
+      <li>Address : {{doctor.address}}</li>
+      <li>Phone : {{doctor.phone}}</li>
+    </ul>
+  </body>
+</html>

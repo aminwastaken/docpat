@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from doctorBackOffice.models import Appointment,Bill
+from accounts.models import CustomUser
+from doctorBackOffice.models import Appointment,Bill, DoctorInfo
 
 
 def index(request):
@@ -14,3 +15,8 @@ def appointment(request, id):
 def bill(request, id):
     bill = Bill.objects.get(id=id)
     return render(request, 'doctorBackOffice/bill.html', {'bill': bill})
+
+def doctor(request, id):
+    doctor = CustomUser.objects.get(id=id)
+    doctor_infos = DoctorInfo.objects.get(doctor=doctor)
+    return render(request, 'doctorBackOffice/doctor.html', {'doctor': doctor, 'doctor_infos': doctor_infos})

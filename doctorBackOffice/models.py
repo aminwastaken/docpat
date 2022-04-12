@@ -72,8 +72,7 @@ class DoctorInfo(models.Model):
         (RADIOLOGIST, "Radiologist"),
     ]
 
-    doctor = models.ForeignKey(
-        accounts_models.CustomUser, on_delete=models.CASCADE)
+    doctor = models.OneToOneField(accounts_models.CustomUser, on_delete=models.CASCADE)
     speciality = models.CharField(
         max_length=40, choices=SPECIALITY_CHOICES, default=GENERALIST)
     description = models.TextField()
@@ -81,7 +80,10 @@ class DoctorInfo(models.Model):
         Service, related_name='doctor_services', default=None)
 
     def __str__(self):
-        return self.doctor.last_name
+        return self.speciality
 
     def get_services(self):
         return ", ".join([service.name for service in self.services.all()])
+
+    def get_services_array(self):
+        return [{"name":service.name,"price":service.price} for service in self.services.all()]
