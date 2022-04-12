@@ -32,7 +32,6 @@
       </select>
       <div>Services</div>
       {% for service in doctor_infos.get_services_array%}
-      {{service}}
       <input  type="checkbox" name="services" value="{{service.id}}" />{{service.name}} <br />
       {% endfor %}
         <input class="btn btn-primary" type="submit" value="Submit"> 
