@@ -39,10 +39,24 @@ class Appointment(models.Model):
 
 
 class Bill(models.Model):
-    appointment = models.ForeignKey(Appointment, on_delete=models.CASCADE)
+    appointment = models.OneToOneField(Appointment, on_delete=models.CASCADE,related_name='bill')
 
     def __str__(self):
         return self.appointment.doctor.last_name + ' ' + self.appointment.patient.last_name
+
+    def get_services(self):
+        print("-----------------")
+        for item in self.appointment.services.all():
+            print(item.price)
+        print("-----------------")
+        return ", ".join([service.name + ":" + str(service.price) for service in self.appointment.services.all()])
+
+    def get_services_objects(self):
+        print("-----------------")
+        for item in self.appointment.services.all():
+            print({"name": item.name, "price": item.price})
+        print("-----------------")
+        return ([{"name": service.name, "price": service.price}for service in self.appointment.services.all()])
 
 
 class DoctorInfo(models.Model):

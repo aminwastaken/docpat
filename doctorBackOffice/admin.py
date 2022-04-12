@@ -17,7 +17,12 @@ class DoctorInfoAdmin(admin.ModelAdmin):
     list_display = ["id", "doctor", "speciality",
                     "description", "get_services"]
 
+class BillAdmin(admin.ModelAdmin):
+    model = Bill
+    list_display = ["appointment","get_services_objects"]
+
 
 admin.site.register(Appointment, AppointmentAdmin)
 admin.site.register(Service, ServiceAdmin)
 admin.site.register(DoctorInfo, DoctorInfoAdmin)
+admin.site.register(Bill, BillAdmin)

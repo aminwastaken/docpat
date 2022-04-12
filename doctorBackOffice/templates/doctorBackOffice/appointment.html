@@ -7,7 +7,7 @@
       </li>
       <li>Date : {{appointment.date}}</li>
       <li>Service : {{appointment.get_services}}</li>
-      <li>Bill</li>
+      <li><a href="{% url "bill" appointment.bill.id %}">Bill</a></li>
     </ul>
   </body>
 </html>

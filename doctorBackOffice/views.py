@@ -17,7 +17,10 @@ def appointment(request, id):
 
 def bill(request, id):
     bill = Bill.objects.get(id=id)
-    return render(request, 'doctorBackOffice/bill.html', {'bill': bill})
+    total = 0
+    for service in bill.appointment.services.all():
+        total += service.price
+    return render(request, 'doctorBackOffice/bill.html', {'bill': bill, 'total': total})
 
 
 def doctor(request, id):
