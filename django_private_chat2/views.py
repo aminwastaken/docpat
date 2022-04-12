@@ -7,6 +7,10 @@ from django.views.generic import (
     ListView,
 
 )
+from accounts.models import CustomUser
+
+from django_private_chat2.forms import MessageForm
+
 from .models import (
     MessageModel,
     DialogsModel,
@@ -21,12 +25,25 @@ from django.http import HttpResponse, JsonResponse, HttpResponseRedirect, HttpRe
 from django.core.paginator import Page, Paginator
 from django.conf import settings
 from django.contrib.auth.models import AbstractBaseUser
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.forms import ModelForm
 import json
-import datetime
 
 from django.shortcuts import render
+
+def send_message(request, dialog_with):
+
+    senderUser = CustomUser.objects.get(id=request.user.pk)
+    recipientUser = CustomUser.objects.get(id=dialog_with)
+    
+    newMessage = MessageModel(sender=senderUser, recipient=recipientUser, text=request.POST['message'])
+    newMessage.save()
+
+    return_data = {
+        'newMessage': newMessage,
+        'dialog_with' : dialog_with
+    }
+    return HttpResponseRedirect(reverse('django_private_chat2:messages_list', args=(dialog_with,)))
 
 class MessagesModelList(LoginRequiredMixin, ListView):
     http_method_names = ['get', ]
@@ -45,16 +62,19 @@ class MessagesModelList(LoginRequiredMixin, ListView):
         return qs.order_by('created')
 
     def render_to_response(self, context, **response_kwargs):
-        print(self.request.user)
 
         user_pk = self.request.user.pk
+        dialog_with = self.kwargs.get('dialog_with')
+        form = MessageForm()
         data = [serialize_message_model(i, user_pk) for i in context['object_list']]
         page: Page = context.pop('page_obj')
         paginator: Paginator = context.pop('paginator')
         return_data = {
             'page': page.number,
             'pages': paginator.num_pages,
-            'data': data
+            'data': data,
+            'form' : form,
+            'dialog_with' : dialog_with
         }
         return render(self.request, 'django_private_chat2/chat.html', return_data)
         # return JsonResponse(return_data, **response_kwargs)

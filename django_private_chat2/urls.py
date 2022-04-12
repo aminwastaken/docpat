@@ -9,10 +9,11 @@ websocket_urlpatterns = [
 ]
 
 urlpatterns = [
-    path('messages/', views.MessagesModelList.as_view(), name='all_messages_list'),
+    path('messages/send/<int:dialog_with>', views.send_message, name='send_message'),
     path('messages/<int:dialog_with>/', views.MessagesModelList.as_view(), name='messages_list'),
-    path('dialogs/', views.DialogsModelList.as_view(), name='dialogs_list'),
-    path('self/', views.SelfInfoView.as_view(), name='self_info'),
-    
-    path('upload/', views.UploadView.as_view(), name='fileupload'),
+    path('chat/', views.DialogsModelList.as_view(), name='dialogs_list'),
+
+    # path('self/', views.SelfInfoView.as_view(), name='self_info'),
+    # path('messages/', views.MessagesModelList.as_view(), name='all_messages_list'),
+    # path('upload/', views.UploadView.as_view(), name='fileupload'),
 ]
