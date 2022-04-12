@@ -50,7 +50,8 @@ def cancel_appointment(request, id):
 def doctor(request, id):
     if request.method == 'POST':
         print(request.POST)
-        doctorInfo = DoctorInfo.objects.get(doctor=request.user)
+        doctorInfo = DoctorInfo.objects.get(
+            doctor=CustomUser.objects.get(id=id))
         doctor = CustomUser.objects.get(id=doctorInfo.doctor.id)
         appointment = Appointment(doctor=doctor, patient=request.user,
                                   date=request.POST['apointmentDate'], time=request.POST['apointmentTime'])

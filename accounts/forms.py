@@ -12,16 +12,19 @@ class CustomUserLoginForm(forms.ModelForm):
         model = CustomUser
         fields = ['username', 'password']
 
+
 class AddressForm(forms.ModelForm):
     class Meta:
         model = Address
         fields = ['city', 'street', 'house_number', 'zipcode', 'country']
 
+
 class CustomUserCreationForm(UserCreationForm):
 
     class Meta:
         model = CustomUser
-        fields = ("username", "email", "user_type", "phone")
+        fields = ("username", "first_name", "last_name",
+                  "email", "user_type", "phone")
 
 
 class CustomUserChangeForm(UserChangeForm):
