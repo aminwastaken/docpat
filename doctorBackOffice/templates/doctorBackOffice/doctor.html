@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Doctor {{doctor.get_full_name}}</h1>
+    <ul>
+      <li>Description : {{doctor_infos.description}}</li>
+      <li>Speciality : {{doctor_infos.speciality}}</li>
+      <li>Services<ul>
+        {% for service in doctor_infos.get_services_array%}
+          <li>{{service.name}} : {{service.price}}€</li>
+        {% endfor %}
+      </ul>
+    </li>
+      <li>Address : {{doctor.address}}</li>
+      <li>Phone : {{doctor.phone}}</li>
+    </ul>
+    {% if appointment %}
+      <h2>Appointment</h2>
+      
+      <p>You have an apointment in  {{appointment.date}} , {{appointment.time}}:00 <a class="btn btn-primary" href="/dbo/appointment/cancel/{{appointment.id}}" role="button" style="margin-left: 80px">Cancel apointment</a></p>
+      
+ 
+
+    {% else %}
+      <form action="/dbo/doctor/{{doctor_infos.id}}" method="post">
+        {% csrf_token %}
+        <input type="date" name="apointmentDate" />
+        <select name="apointmentTime" id="pet-select">
+          {% for time in  hours %}
+            <option value="{{time.value}}">{{time.text}}</option>
+          {% endfor %}
+      </select>
+      <div>Services</div>
+      {% for service in doctor_infos.get_services_array%}
+      <input  type="checkbox" name="services" value="{{service.id}}" />{{service.name}} <br />
+      {% endfor %}
+        <input class="btn btn-primary" type="submit" value="Submit"> 
+    </form>
+    {% endif %}
+
+      
+
+
+{% endblock %}

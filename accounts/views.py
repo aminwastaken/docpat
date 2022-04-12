@@ -4,14 +4,33 @@ from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView
 from django.shortcuts import render
 from django.views.generic import TemplateView
-from .forms import CustomUserCreationForm, CustomUserLoginForm
+from .forms import AddressForm, CustomUserCreationForm, CustomUserLoginForm
 from django.contrib.auth import authenticate, login, logout
 
 
-class SignUpView(CreateView):
-    form_class = CustomUserCreationForm
-    success_url = reverse_lazy("login")
-    template_name = "signup.html"
+# class SignUpView(CreateView):
+#     form_class = CustomUserCreationForm
+#     form2_class = AddressForm
+#     success_url = reverse_lazy("login")
+#     template_name = "signup.html"
+
+def SignupView2(request):
+    if request.method == 'POST':
+        form1 = CustomUserCreationForm(request.POST)
+        form2 = AddressForm(request.POST)
+        if all((form1.is_valid(), form2.is_valid())):
+            user = form1.save()
+            address = form2.save(commit=False)
+            address.user = user
+            address.save()
+            return HttpResponseRedirect(reverse_lazy("login"))
+
+# if a GET (or any other method) we'll create a blank form
+    else:
+        form1 = CustomUserCreationForm()
+        form2 = AddressForm()
+
+    return render(request, 'signup2.html', {'form1': form1,'form2': form2})
 
 
 # class LoginView(CreateView):
