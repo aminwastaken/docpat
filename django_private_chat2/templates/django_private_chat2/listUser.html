@@ -18,9 +18,20 @@
                     </div>
                 </li>  
             {% empty %}
-                <li>Sorry, no users.</li>
+                <p>Sorry, no users.</p>
             {% endfor %}
         </ul>
+         <form action="{% url 'django_private_chat2:create_dialog' %}" method="post">
+            {% csrf_token %}
+            <!-- {{ form }} -->
+            <label for="userRecipient">List User:</label>
+                <select id="userRecipient" name="userRecipient">
+                    {% for id,choice in choicesList %}
+                    <option value="{{ id }}">{{ choice }}</option>
+                    {% endfor %}
+                </select>
+            <button type="submit">Create dialog</button>
+          </form>
     </div>
 </div>
 {% endblock %}

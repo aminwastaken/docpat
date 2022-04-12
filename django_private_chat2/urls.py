@@ -10,6 +10,7 @@ websocket_urlpatterns = [
 
 urlpatterns = [
     path('messages/send/<int:dialog_with>', views.send_message, name='send_message'),
+    path('dialog/create', views.create_dialog, name='create_dialog'),
     path('messages/<int:dialog_with>/', views.MessagesModelList.as_view(), name='messages_list'),
     path('chat/', views.DialogsModelList.as_view(), name='dialogs_list'),
 
