@@ -1,8 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponse
 from accounts.models import CustomUser
 from doctorBackOffice.forms import DocPageCreationForm, DocServiceCreationForm
 from doctorBackOffice.models import Appointment, Bill, DoctorInfo, Service
+from accounts.forms import CustomUserChangeForm, CustomUserCreationForm
 from django.http import HttpResponseRedirect
 
 
@@ -69,19 +70,35 @@ def doctor(request, id):
     return render(request, 'doctorBackOffice/doctor.html', {'doctor': doctor, 'doctor_infos': doctor_infos, 'hours': hours, 'appointment_exist': appointment_exist, 'appointment': appointment})
 
 
-def doctor_info(request):
+def profile(request):
     if request.method == 'POST':
-        form = DocPageCreationForm(request.POST)
-        if form.is_valid():
-            data = form.cleaned_data
-            currentUser = CustomUser.objects.get(id=request.user.id)
-            doctor = DoctorInfo(
-                doctor=request.user, speciality=data['speciality'], description=data['description'])
-            doctor.save()
-            return HttpResponseRedirect('/')
+        if (CustomUser.objects.get(id=request.user.id)).user_type == "doctor":
+            instance = get_object_or_404(DoctorInfo, doctor=request.user)
+            form = DocPageCreationForm(instance=instance)
+            if form.is_valid():
+                form.save()
+                return HttpResponseRedirect('/')
+        else:
+            print("USER PATIENT POST")
+            form = CustomUserChangeForm()
+            if form.is_valid():
+                print("user save")
+                form.save()
+                # data = form.cleaned_data
+                # currentUser = CustomUser.objects.get(id=request.user.id)
+                # currentUser.first_name = data["First Name"]
+                # currentUser.save()
+                return HttpResponseRedirect('/')
     else:
-        form = DocPageCreationForm()
-    return render(request, 'doctor_info.html', {'form': form, 'id': id})
+        if (CustomUser.objects.get(id=request.user.id)).user_type == "doctor":
+            doctor_info_id = DoctorInfo.objects.get(doctor=request.user).id
+            instance = get_object_or_404(DoctorInfo, id=doctor_info_id)
+            form = DocPageCreationForm(instance=instance) #update form
+        else:
+            print((CustomUser.objects.get(id=request.user.id).user_type))
+            instance = get_object_or_404(CustomUser, id=request.user.id)
+            form = CustomUserChangeForm(instance=instance)
+    return render(request, 'profile.html', {'form': form, 'id': id})
 
 
 def doctor_services(request):

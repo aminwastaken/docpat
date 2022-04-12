@@ -17,15 +17,14 @@ class AddressForm(forms.ModelForm):
         model = Address
         fields = ['city', 'street', 'house_number', 'zipcode', 'country']
 
-class CustomUserCreationForm(UserCreationForm):
+class CustomUserCreationForm(forms.ModelForm):
 
     class Meta:
         model = CustomUser
         fields = ("username", "email", "user_type", "phone")
 
-
-class CustomUserChangeForm(UserChangeForm):
+class CustomUserChangeForm(forms.ModelForm):
 
     class Meta:
         model = CustomUser
-        fields = ("username", "email")
+        fields = ("username", "email","first_name","last_name")

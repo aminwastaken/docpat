@@ -2,8 +2,8 @@
 
 {% block content %}
 
-    <h1>doctor info page</h1>
-    <form action="/dbo/doctor" method="post">
+    <h1>Profile page</h1>
+    <form action="/dbo/profile" method="post">
         {% csrf_token %}
         {{ form }}
         <input type="submit" value="Submit">
