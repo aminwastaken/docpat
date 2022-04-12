@@ -15,23 +15,21 @@ def appointment(request, id):
     appointment = Appointment.objects.get(id=id)
     return render(request, 'doctorBackOffice/appointment.html', {'appointment': appointment})
 
+
 def appointmentAll(request):
 
     doctor = CustomUser.objects.get(id=request.user.pk)
 
     appointments = Appointment.objects.filter(doctor=doctor)
 
-
     appointments_futur = appointments.filter(date__gte=timezone.now())
     appointments_past = appointments.filter(date__lte=timezone.now())
-
-
 
     result_data = {
         'appointments': appointments_past,
         'appointments_futur': appointments_futur
     }
-    return render(request, 'doctorBackOffice/appointmentList.html',result_data)
+    return render(request, 'doctorBackOffice/appointmentList.html', result_data)
 
 
 def bill(request, id):
@@ -123,6 +121,11 @@ def calendar(request):
                 formattedDates[-1]['appointments'].append(appointment)
     print(formattedDates)
     return render(request, 'calendar.html', {'formattedDates': formattedDates})
+
+
+def doctorList(request):
+    doctors = CustomUser.objects.filter(user_type="doctor")
+    return render(request, 'doctorList.html', {'doctors': doctors})
 
 
 def doctor_services(request):
