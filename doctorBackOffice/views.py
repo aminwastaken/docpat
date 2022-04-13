@@ -20,7 +20,7 @@ def appointmentAll(request):
 
     doctor = CustomUser.objects.get(id=request.user.pk)
 
-    appointments = Appointment.objects.filter(doctor=doctor)
+    appointments = Appointment.objects.filter(patient=request.user)
 
     appointments_futur = appointments.filter(date__gte=timezone.now())
     appointments_past = appointments.filter(date__lte=timezone.now())
@@ -30,7 +30,6 @@ def appointmentAll(request):
         'appointments_futur': appointments_futur
     }
     return render(request, 'doctorBackOffice/appointmentList.html', result_data)
-
 
 def bill(request, id):
     bill = Bill.objects.get(id=id)
@@ -56,6 +55,8 @@ def doctor(request, id):
         appointment = Appointment(doctor=doctor, patient=request.user,
                                   date=request.POST['apointmentDate'], time=request.POST['apointmentTime'])
         appointment.save()
+        bill = Bill(appointment=appointment)
+        bill.save()
         for service in request.POST.getlist('services'):
             appointment.services.add(Service.objects.get(id=service))
         appointment.save()
