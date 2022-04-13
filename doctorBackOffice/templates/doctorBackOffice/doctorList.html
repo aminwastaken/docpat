@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Doctor list</h1>
+<ul class="list-group" >
+  {% for doctor in doctors %}
+    <li class="list-group-item" > <a href="/dbo/doctor/{{doctor.id}}">{{doctor}} </a> {{doctor.speciality}} </li>
+  {% endfor %}
+</ul>
+{% endblock %}

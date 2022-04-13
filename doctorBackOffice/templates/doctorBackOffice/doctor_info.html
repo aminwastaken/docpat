@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <h1>doctor info page</h1>
+    <form action="/dbo/doctor" method="post">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit" value="Submit">
+    </form>
+    <a href="/dbo/doctor/services">Services</a>
+
+{% endblock %}

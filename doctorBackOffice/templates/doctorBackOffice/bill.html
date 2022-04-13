@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}Docpat - Appointments{% endblock %}
+
+{% block content %}
+    <h1>Bill {{bill.id}}</h1>
+    <h2>Doctor</h2>
+    <div>{{bill.appointment.doctor.get_full_name}}</div>
+    <div>-------------------------------------------</div>
+    <h2>Patient</h2>
+    <div>{{bill.appointment.patient.get_full_name}}</div>
+    <div>-------------------------------------------</div>
+    <h2>Appointment : {{bill.appointment.id}}</h2>
+    <div>Place : {{bill.appointment.doctor.address}}</div>
+    <div>Hours : {{bill.appointment.time}}</div>
+    <div>-------------------------------------------</div>
+    <h2>Services</h2>
+    {%for service in bill.get_services_objects%}
+    <div>{{service.name}} : {{service.price}}</div>
+    <!-- <div>{{service.price}}</div> -->
+    {%endfor%}
+    <br/>
+    <div>Total : {{total}}</div>
+    <div>-------------------------------------------</div>
+
+
+    {% endblock %}

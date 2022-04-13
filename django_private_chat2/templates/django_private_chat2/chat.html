@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}Docpat - Chat {% endblock %}
+
+{% block content %}
+<div class="chatbox__messages">
+  <h2>Chat Box</h2>
+  <a href="{% url 'django_private_chat2:dialogs_list' %}">Retour</a>
+  <div class="chatbox__messages__user-message" style="border: 1px solid black;">
+    <ul>
+      {% for message in data %}
+          <!-- <li>{{ message }}</li>
+          <li>{{dialog_with}} == {{message.sender}}</li> -->
+          <!-- BUG IF -->
+          {% if dialog_with != message.sender %}  <!-- I am User -->
+            <div class="chatbox__messages__user-recipient" style="border: 2px solid black;">
+              <p class="name">{{ message.sender_username }}</p>
+              <p class="message">{{ message.text }} - LU ?{{ message.read }}</p>
+              <p>{{ message.sent|date:"SHORT_DATE_FORMAT" }} - {{ message.sent|time:"H:i" }}</p>
+            </div>
+          {% else %} <!-- I am Other User -->
+            <div class="chatbox__messages__user-sender" style="border: 2px solid red;">
+              <p class="name">{{ message.sender_username }}</p>
+              <p class="message">{{ message.text }} - LU ?{{ message.read }}</p>
+              <p>{{ message.sent|date:"SHORT_DATE_FORMAT" }} - {{ message.sent|time:"H:i" }}</p>
+            </div>
+          {% endif %}
+      {% empty %}
+          <p>Sorry, no message.</p>
+      {% endfor %}
+    </ul>
+  </div>
+
+  <form action="{% url 'django_private_chat2:send_message' dialog_with %}" method="post">
+    {% csrf_token %}
+    {{ form }}
+    <button type="submit">Envoie</button>
+  </form>
+</div>
+{% endblock %}

@@ -1,0 +1,4 @@
+## DB
+.python-version
+db.sqlite3
+.vscode

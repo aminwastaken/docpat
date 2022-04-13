@@ -11,7 +11,7 @@ class CustomUserAdmin(UserAdmin):
     form = CustomUserChangeForm
     model = CustomUser
     list_display = ["email", "username", "user_type",
-                    "address", "phone", "speciality"]
+                    "address", "phone", ]
 
 
 admin.site.register(CustomUser, CustomUserAdmin)
